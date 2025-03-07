@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hằng's Slideshow</title>
+    <style>
+      /* Reset CSS */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Body Styling */
+      body {
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+        font-family: "Courier New", Courier, monospace;
+      }
+
+      /* Slideshow Container */
+      .slideshow-container {
+        position: relative;
+        max-width: 800px;
+        width: 90%; /* Responsive width */
+        text-align: center;
+      }
+
+      /* Image Styling */
+      .slideshow-container img {
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+
+      /* Navigation Buttons */
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: auto;
+        padding: 16px;
+        color: white;
+        font-weight: bold;
+        font-size: 2rem;
+        transition: 0.3s ease;
+        user-select: none;
+      }
+
+      .prev {
+        left: 10px; /* Adjusted for smaller screens */
+      }
+
+      .next {
+        right: 10px; /* Adjusted for smaller screens */
+      }
+
+      .prev:hover,
+      .next:hover {
+        color: #ff6f61;
+      }
+
+      /* Hide slides by default */
+      .slides {
+        display: none;
+      }
+
+      /* Back Link Styling */
+      .back-link {
+        position: absolute;
+        top: 90%;
+        margin-top: 20px;
+        color: white;
+        font-size: 1.2rem;
+        text-decoration: none;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .back-link:hover {
+        color: #ff6f61;
+        text-decoration: underline;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 600px) {
+        .prev,
+        .next {
+          font-size: 1.5rem;
+          padding: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slideshow-container">
+      <!-- Slideshow Images -->
+      <div class="slides">
+        <img src="images/1737384102264.jpg" alt="Hằng's Image 1" />
+      </div>
+      <div class="slides">
+        <img src="images/1737389598692.jpg" alt="Hằng's Image 2" />
+      </div>
+      <div class="slides">
+        <img src="images/1737394908885.jpg" alt="Hằng's Image 3" />
+      </div>
+      <div class="slides">
+        <img src="images/1737395318886.jpg" alt="Hằng's Image 4" />
+      </div>
+      <div class="slides">
+        <img src="images/1737395447179.jpg" alt="Hằng's Image 5" />
+      </div>
+      <div class="slides">
+        <img src="images/1737478953325.jpg" alt="Hằng's Image 6" />
+      </div>
+      <div class="slides">
+        <img src="images/1737479310286.jpg" alt="Hằng's Image 7" />
+      </div>
+      <div class="slides">
+        <img src="images/1737479453509.jpg" alt="Hằng's Image 8" />
+      </div>
+      <div class="slides">
+        <img src="images/1737479641954.jpg" alt="Hằng's Image 9" />
+      </div>
+      <div class="slides">
+        <img src="images/1737479721065.jpg" alt="Hằng's Image 10" />
+      </div>
+      <div class="slides">
+        <img src="images/1737565798165.jpg" alt="Hằng's Image 11" />
+      </div>
+      <div class="slides">
+        <img src="images/1737566229770.jpg" alt="Hằng's Image 12" />
+      </div>
+      <div class="slides">
+        <img src="images/1737566524750.jpg" alt="Hằng's Image 13" />
+      </div>
+      <div class="slides">
+        <img src="images/1737566702580.jpg" alt="Hằng's Image 14" />
+      </div>
+
+      <!-- Navigation Buttons -->
+      <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+      <a class="next" onclick="changeSlide(1)">&#10095;</a>
+    </div>
+
+    <!-- Back Link -->
+    <a href="https://flower-hang.vercel.app/" class="back-link">Quay lại trang chính</a>
+
+    <script>
+      // JavaScript for Slideshow
+      let slideIndex = 0;
+      showSlides(slideIndex);
+
+      // Function to change slides
+      function changeSlide(n) {
+        showSlides((slideIndex += n));
+      }
+
+      // Function to display slides
+      function showSlides(n) {
+        const slides = document.querySelectorAll(".slides");
+
+        if (n >= slides.length) {
+          slideIndex = 0;
+        }
+        if (n < 0) {
+          slideIndex = slides.length - 1;
+        }
+
+        // Hide all slides
+        slides.forEach((slide) => {
+          slide.style.display = "none";
+        });
+
+        // Show the current slide
+        slides[slideIndex].style.display = "block";
+      }
+
+      // Auto Slide
+      let autoSlideInterval = setInterval(() => {
+        changeSlide(1);
+      }, 3000); // Change slide every 3 seconds
+
+      // Pause auto slide on hover
+      const slideshowContainer = document.querySelector(".slideshow-container");
+      slideshowContainer.addEventListener("mouseenter", () => {
+        clearInterval(autoSlideInterval);
+      });
+
+      // Resume auto slide on mouse leave
+      slideshowContainer.addEventListener("mouseleave", () => {
+        autoSlideInterval = setInterval(() => {
+          changeSlide(1);
+        }, 3000);
+      });
+
+      // Swipe functionality for touch devices
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      slideshowContainer.addEventListener("touchstart", (e) => {
+        touchStartX = e.touches[0].clientX;
+      });
+
+      slideshowContainer.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].clientX;
+        handleSwipe();
+      });
+
+      function handleSwipe() {
+        const swipeThreshold = 50; // Minimum swipe distance
+        if (touchEndX < touchStartX - swipeThreshold) {
+          changeSlide(1); // Swipe left to go to next slide
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+          changeSlide(-1); // Swipe right to go to previous slide
+        }
+      }
+    </script>
+  </body>
+</html>
